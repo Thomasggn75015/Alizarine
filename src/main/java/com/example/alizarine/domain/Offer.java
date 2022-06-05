@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -31,13 +32,13 @@ public class Offer {
     private ObjectCategory objectCategory;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private Double price;
 
     @ManyToOne
     private User seller;
 
     @Column(name = "postDate", nullable = false)
-    private LocalDate postDate;
+    private Instant postDate;
 
     @Column(name = "status", nullable = false)
     private String status;
