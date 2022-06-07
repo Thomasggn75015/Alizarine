@@ -35,19 +35,8 @@ public class UserService {
         user.setBirthDate(requestedUser.getBirthDate());
         user.setRole(Role.ROLE_USER.toString());
         user.setActivated(true);
-        //user.setActivationKey(PasswordGenerator.generateActivationKey());
         userRepository.save(user);
         log.info("New User created: {}", user.getEmail());
         return ResponseEntity.ok("User created successfully");
     }
-
-    /*public Optional<User> activateRegistration(String key) {
-        Optional<User> user = userRepository.findOneByActivationKey(key);
-        if (user.isPresent()) {
-            log.info("Activation of user : {}", user.get().getEmail());
-            user.get().setActivated(true);
-        } else {
-            log.info("No user found for this activation key");
-        } return user;
-    }*/
 }

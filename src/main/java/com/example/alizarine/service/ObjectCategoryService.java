@@ -58,15 +58,11 @@ public class ObjectCategoryService {
     }
 
     private ResponseEntity<ObjectCategory> createObjectCategory(ObjectCategory requestedObjectCategory, ObjectCategory objectCategory) {
-        try {
-            objectCategory.setName(requestedObjectCategory.getName());
-            objectCategory.setMaxPrice(requestedObjectCategory.getMaxPrice());
-            objectCategoryRepository.saveAndFlush(objectCategory);
-            log.debug("New objectCategory created: {}", objectCategory);
-            return ResponseEntity.ok(objectCategory);
-        } catch (NullPointerException e) {
-            return ResponseEntity.notFound().build();
-        }
+        objectCategory.setName(requestedObjectCategory.getName());
+        objectCategory.setMaxPrice(requestedObjectCategory.getMaxPrice());
+        objectCategoryRepository.saveAndFlush(objectCategory);
+        log.debug("New objectCategory created: {}", objectCategory);
+        return ResponseEntity.ok(objectCategory);
     }
 
     private void updateObjectCategoryFields(ObjectCategory requestedObjectCategory, ObjectCategory objectCategory) {

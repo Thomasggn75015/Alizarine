@@ -56,26 +56,20 @@ public class OfferService {
             offerRepository.delete(requestedOffer.get());
             log.debug("Offer deleted succesfully : {}", requestedOffer);
             return ResponseEntity.ok("Offer deleted successfully");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        } else { return ResponseEntity.notFound().build(); }
     }
 
     private ResponseEntity<Offer> createOffer(Offer requestedOffer, Offer offer) {
-        try {
-            offer.setTitle(requestedOffer.getTitle());
-            offer.setDescription(requestedOffer.getDescription());
-            offer.setObjectCategory(requestedOffer.getObjectCategory());
-            offer.setPrice(requestedOffer.getPrice());
-            offer.setSeller(requestedOffer.getSeller());
-            offer.setPostDate(Instant.now());
-            offer.setStatus(requestedOffer.getStatus());
-            offerRepository.saveAndFlush(offer);
-            log.debug("New offer created: {}", offer);
-            return ResponseEntity.ok(offer);
-        } catch (NullPointerException e) {
-            return ResponseEntity.notFound().build();
-        }
+        offer.setTitle(requestedOffer.getTitle());
+        offer.setDescription(requestedOffer.getDescription());
+        offer.setObjectCategory(requestedOffer.getObjectCategory());
+        offer.setPrice(requestedOffer.getPrice());
+        offer.setSeller(requestedOffer.getSeller());
+        offer.setPostDate(Instant.now());
+        offer.setStatus(requestedOffer.getStatus());
+        offerRepository.saveAndFlush(offer);
+        log.debug("New offer created: {}", offer);
+        return ResponseEntity.ok(offer);
     }
 
     private void updateOfferFields(Offer requestedOffer, Offer offer) {
@@ -87,12 +81,6 @@ public class OfferService {
             offer.setObjectCategory(requestedOffer.getObjectCategory());
         }
         if (requestedOffer.getPrice() != null) { offer.setPrice(requestedOffer.getPrice()); }
-        if (requestedOffer.getSeller() != null) { // to change for user context
-            /*offer.setSeller(requestedOffer.getSeller());
-            Optional<ObjectCategory> objectCategory = userRepository.findById(requestedOffer.getObjectCategory().getId());
-            objectCategory.ifPresent(offer::setObjectCategory);
-            offer.setObjectCategory(requestedOffer.getObjectCategory());*/
-        }
         if (requestedOffer.getPostDate() != null) { offer.setPostDate(Instant.now()); }
         if (requestedOffer.getStatus() != null) { offer.setStatus(requestedOffer.getStatus()); }
         offerRepository.saveAndFlush(offer);

@@ -13,15 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -44,8 +41,6 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Optional<User> user = userRepository.findById(userDetails.getId());
         LoginResponse response = new LoginResponse(jwt);
         log.info(String.valueOf(response));
         return ResponseEntity.ok(response);
@@ -58,13 +53,4 @@ public class AuthController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userRepository.findOneByEmailIgnoreCase(userDetails.getEmail());
     }
-
-    /*@GetMapping("/activate")
-    public ResponseEntity<?> activate(@RequestParam(value = "key") String key, HttpServletResponse response) {
-        Optional<User> user = userService.activateRegistration(key);
-        if (user.isPresent()) {
-            return new ResponseEntity<>("Account Activated", HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }*/
 }
