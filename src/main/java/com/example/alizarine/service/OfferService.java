@@ -77,7 +77,7 @@ public class OfferService {
             offer.setSeller(user.get());
         } else { return ResponseEntity.notFound().build(); }
         offer.setPostDate(Instant.now());
-        offer.setStatus(requestedOffer.getStatus());
+        offer.setStatus("selling");
         offerRepository.saveAndFlush(offer);
         log.debug("New offer created: {}", offer);
         return ResponseEntity.ok(offer);
