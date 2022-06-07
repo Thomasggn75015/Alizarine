@@ -2,6 +2,7 @@ package com.example.alizarine.controller;
 
 
 import com.example.alizarine.domain.User;
+import com.example.alizarine.domain.UserDTO;
 import com.example.alizarine.repository.UserRepository;
 import com.example.alizarine.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,9 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable Long userId) {
-        log.debug("REST request to get User : {}", userId);
-        return ResponseEntity.ok(userRepository.findById(userId).get());
+    @GetMapping("/profile")
+    public ResponseEntity<UserDTO> getUserProfile() {
+        log.debug("REST request to get User : {}");
+        return userService.getUserInfos();
     }
 }
