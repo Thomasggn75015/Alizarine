@@ -36,7 +36,7 @@ public class ObjectCategoryService {
         }
     }
 
-    public ResponseEntity<ObjectCategory> getObjectCategory(@Nullable Long id) {
+    public ResponseEntity<ObjectCategory> getObjectCategory(Long id) {
         Optional<ObjectCategory> objectCategory = objectCategoryRepository.findById(id);
         return ResponseEntity.of(objectCategory);
     }

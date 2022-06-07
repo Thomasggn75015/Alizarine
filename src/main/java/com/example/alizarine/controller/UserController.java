@@ -24,7 +24,7 @@ public class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<String> createUser(@Valid @RequestBody User user) throws Exception {
         log.debug("REST request to create User : {}", user);
         return userService.createUser(user);

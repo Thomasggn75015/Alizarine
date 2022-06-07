@@ -1,10 +1,7 @@
 package com.example.alizarine.service;
 
-import com.example.alizarine.domain.Offer;
 import com.example.alizarine.domain.Transaction;
 import com.example.alizarine.repository.TransactionRepository;
-import com.example.alizarine.repository.OfferRepository;
-import com.sun.istack.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-    private final OfferRepository offerRepository;
-	
+
     public ResponseEntity<Transaction> createTransaction(Transaction requestedTransaction) {
         Transaction transaction = new Transaction();
         return createTransaction(requestedTransaction, transaction);
@@ -39,14 +35,14 @@ public class TransactionService {
         }
     }
 
-    public ResponseEntity<Transaction> getTransaction(@Nullable Long id) {
+    public ResponseEntity<Transaction> getTransaction(Long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
         return ResponseEntity.of(transaction);
     }
 
-    public ResponseEntity<ArrayList<Transaction>> getObjectCategories() {
-        ArrayList<Transaction> objectCategories = new ArrayList<>(transactionRepository.findAll());
-        return ResponseEntity.ok(objectCategories);
+    public ResponseEntity<ArrayList<Transaction>> getTransactions() {
+        ArrayList<Transaction> transactions = new ArrayList<>(transactionRepository.findAll());
+        return ResponseEntity.ok(transactions);
     }
 
     public ResponseEntity<String> deleteTransaction(Long id) {
@@ -63,7 +59,7 @@ public class TransactionService {
     private ResponseEntity<Transaction> createTransaction(Transaction requestedTransaction, Transaction transaction) {
         try {
             transaction.setOffer(requestedTransaction.getOffer());
-            transaction.setBuyer(requestedTransaction.getBuyer());
+            transaction.setUser(requestedTransaction.getUser());
             transaction.setState(requestedTransaction.getState());
             transactionRepository.saveAndFlush(transaction);
             log.debug("New transaction created: {}", transaction);
@@ -75,8 +71,8 @@ public class TransactionService {
 
     private void updateTransactionFields(Transaction requestedTransaction, Transaction transaction) {
         if (requestedTransaction.getOffer() != null) { transaction.setOffer(requestedTransaction.getOffer()); }
-        if (requestedTransaction.getBuyer() != null  ) { transaction.setBuyer(requestedTransaction.getBuyer()); }
-        if (requestedTransaction.getState() != null  ) { transaction.setState(requestedTransaction.getState()); }
+        if (requestedTransaction.getUser() != null) { transaction.setUser(requestedTransaction.getUser()); }
+        if (requestedTransaction.getState() != null) { transaction.setState(requestedTransaction.getState()); }
         transactionRepository.saveAndFlush(transaction);
     }
 }
