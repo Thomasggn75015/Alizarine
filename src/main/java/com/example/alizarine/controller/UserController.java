@@ -24,6 +24,7 @@ public class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@Valid @RequestBody User user) throws Exception {
         log.debug("REST request to create User : {}", user);
