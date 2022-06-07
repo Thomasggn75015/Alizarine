@@ -2,12 +2,17 @@ package com.example.alizarine.service;
 
 import com.example.alizarine.domain.ObjectCategory;
 import com.example.alizarine.domain.Offer;
+import com.example.alizarine.domain.User;
+import com.example.alizarine.domain.UserDTO;
 import com.example.alizarine.repository.ObjectCategoryRepository;
 import com.example.alizarine.repository.OfferRepository;
+import com.example.alizarine.repository.UserRepository;
 import com.sun.istack.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +27,7 @@ import java.util.Optional;
 public class OfferService {
     private final OfferRepository offerRepository;
     private final ObjectCategoryRepository objectCategoryRepository;
+    private final UserRepository userRepository;
 
     public ResponseEntity<Offer> createOffer(Offer requestedOffer) {
         Offer offer = new Offer();
@@ -64,7 +70,12 @@ public class OfferService {
         offer.setDescription(requestedOffer.getDescription());
         offer.setObjectCategory(requestedOffer.getObjectCategory());
         offer.setPrice(requestedOffer.getPrice());
-        offer.setSeller(requestedOffer.getSeller());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Optional<User> user = userRepository.findById(userDetails.getId());
+        if (user.isPresent()) {
+            offer.setSeller(user.get());
+        } else { return ResponseEntity.notFound().build(); }
         offer.setPostDate(Instant.now());
         offer.setStatus(requestedOffer.getStatus());
         offerRepository.saveAndFlush(offer);
