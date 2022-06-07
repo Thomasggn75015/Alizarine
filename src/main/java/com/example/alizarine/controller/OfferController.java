@@ -12,38 +12,38 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/offer")
 @RequiredArgsConstructor
 @CrossOrigin
 public class OfferController {
     private final OfferService offerService;
 
-    @PostMapping("/offer")
+    @PostMapping("")
     public ResponseEntity<Offer> createOffer(@Valid @RequestBody Offer offer) {
         log.debug("REST request to save offer : {}", offer);
         return offerService.createOffer(offer);
     }
 
-    @PutMapping("/offer")
+    @PutMapping("")
     public ResponseEntity<?> updateOffer(@Valid @RequestBody Offer offer) {
         log.debug("REST request to update offer : {}", offer);
         return offerService.updateOffer(offer);
     }
 
-    @GetMapping("/offer/{offerId}")
+    @GetMapping("/{offerId}")
     public ResponseEntity<Offer> getOffer(@Valid @PathVariable Long offerId) {
         log.debug("REST request to find offer with id : {}", offerId);
         return offerService.getOffer(offerId);
 
     }
 
-    @GetMapping("/offer")
+    @GetMapping("")
     public ResponseEntity<ArrayList<Offer>> getOffers() {
         log.debug("REST request to find all objectCategories");
         return offerService.getOffers();
     }
 
-    @DeleteMapping("/offer/{offerId}")
+    @DeleteMapping("/{offerId}")
     public ResponseEntity<?> deleteOffer(@Valid @PathVariable Long offerId) {
         log.debug("REST request to delete offer with id : {}", offerId);
         return offerService.deleteOffer(offerId);

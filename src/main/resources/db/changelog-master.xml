@@ -33,4 +33,33 @@
             <column name="role" type="varchar"/>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="Thomas">
+        <createTable tableName="transaction">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="offer_id" type="int"/>
+            <column name="state" type="varchar"/>
+            <column name="user_id" type="int"/>
+        </createTable>
+        <createTable tableName="object_category">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="max_price" type="double"/>
+            <column name="name" type="varchar"/>
+        </createTable>
+        <createTable tableName="offer">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar"/>
+            <column name="object_category_id" type="int"/>
+            <column name="post_date" type="datetime"/>
+            <column name="price" type="double"/>
+            <column name="seller_id" type="int"/>
+            <column name="status" type="varchar"/>
+            <column name="title" type="varchar"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
